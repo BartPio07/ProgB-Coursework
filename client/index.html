@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coursework</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="navigation-bar">
+        <button class="nav-btn" id="sec1-btn">Reaction Test</button>
+        <button class="nav-btn" id="sec2-btn">Memory Test</button>
+        <button class="nav-btn" id="sec3-btn">Type Test</button>
+        <button class="nav-btn" id="sec4-btn">Sound Test</button>
+    </div>
+
+    <div class="section-div" id="reaction-div" style="display:none;">
+        <h1 id="section-title">Reaction Test</h1>
+        <button id="reaction-btn">Start?</button>
+        <p id="reaction-results"></p>
+    </div>
+
+    <div class="section-div" id="memory-div" style="display:none;">
+        <h1 id="section-title">Memory Test</h1>
+        <div class="memory-game-div" id="memory-game">
+            <div class="memory-btn-col">
+                <button class="memory-btn"></button>
+                <button class="memory-btn"></button>
+                <button class="memory-btn"></button>
+            </div>
+            <div class="memory-btn-col">
+                <button class="memory-btn"></button>
+                <button class="memory-btn"></button>
+                <button class="memory-btn"></button>
+            </div>
+            <div class="memory-btn-col">
+                <button class="memory-btn"></button>
+                <button class="memory-btn"></button>
+                <button class="memory-btn"></button>
+            </div>
+        </div>
+        <button id="memory-start-btn">Start</button>
+        <p id="memory-score"></p>
+    </div>
+
+    <div class="section-div" id="section-3-div" style="display:flex;">
+        <h1 id="section-title">Type Test</h1>
+        <input type="text" id="type-test-input" autocomplete="off">
+        <div id="type-word-info-div">
+            <p id="current-words-p"></p>
+            <button id="type-start-btn">Start Test</button>
+            <p id="current-time-p"></p>
+        </div>
+        <div id="display-word-div">
+            <p class="display-word" id="word-1"></p>
+            <p class="display-word" id="word-2"></p>
+            <p class="display-word" id="word-3"></p>
+        </div>
+        <canvas id="type-chart"></canvas>
+        <div id="type-info-div">
+            <p id="average-wpm-p"></p>
+            <p id="min-wpm-p"></p>
+            <p id="max-wpm-p"></p>
+        </div>
+
+        <div id="type-overlay-div">
+            <p id="count-down-p">3</p>
+        </div>
+    </div>
+
+    <div class="section-div" id="section-4-div" style="display:none;">
+        <h1 id="section-title">Sound Test</h1>
+        
+    </div>
+
+    <script src="script.js" type="module"></script>
+    <script src="memory-test.js" type="module"></script>
+    <script src="reaction-test.js" type="module"></script>
+    <script src="type-test.js" type="module"></script>
+</body>
+</html>
