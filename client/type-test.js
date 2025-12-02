@@ -20,9 +20,6 @@ var maxWPMP = document.getElementById("max-wpm-p");
 let userInputWords = [];
 let testWords = [];
 let userInput = "";
-let wordFunctions = [faker.word.adjective, faker.word.noun, faker.food.spice,
-    faker.food.vegetable, faker.food.meat, faker.word.adverb,
-    faker.word.conjunction];
 let startTime;
 let currentTimeSeconds;
 let testInterval;
@@ -123,13 +120,10 @@ typeTextInput.addEventListener("input", async function(){
 function generateWords(amount){
     // Create local variables to make and store the wods
     let words = [];
-    let r = "";
     let word = "";
     for (let i = 0; i < amount; i++){
-        // Get a random nubmer to pick a type of word from the word function list
-        r = Math.round(Math.random() * (wordFunctions.length-1));
         // Get the word and make it lowercase
-        word = wordFunctions[r]().toLowerCase()
+        word = faker.word.words().toLowerCase()
         // Check if the word has any spaces
         word.split(" ").forEach(w => {
             // Add the split words into the words list
