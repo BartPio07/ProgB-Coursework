@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coursework</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:;base64,=">
 </head>
 <body>
     <div id="navigation-bar">
@@ -43,7 +44,7 @@
         <p id="memory-score"></p>
     </div>
 
-    <div class="section-div" id="section-3-div" style="display:flex;">
+    <div class="section-div" id="section-3-div" style="display:none;">
         <h1 id="section-title">Type Test</h1>
         <input type="text" id="type-test-input" autocomplete="off">
         <div id="type-word-info-div">
@@ -56,7 +57,17 @@
             <p class="display-word" id="word-2"></p>
             <p class="display-word" id="word-3"></p>
         </div>
-        <canvas id="type-chart"></canvas>
+
+        <div id="graphics-div">
+            <div id="whole-leaderboard" style="display:none">
+                <div class="leaderboard">
+                    <table id="leaderboard-table"></table>
+                </div>
+                <button id="get-leaderboard-btn">Update Leaderboard</button>
+
+            </div>
+            <canvas id="type-chart"></canvas>
+        </div>
         <div id="type-info-div">
             <p id="average-wpm-p"></p>
             <p id="min-wpm-p"></p>
@@ -66,16 +77,58 @@
         <div id="type-overlay-div">
             <p id="count-down-p">3</p>
         </div>
+
+        <div id="score-submit-div" style="display:none">
+            <button id="save-score-btn">Save Your Score</button>
+            <input type="text" id="name-input" placeholder="Name">
+        </div>
     </div>
 
-    <div class="section-div" id="section-4-div" style="display:none;">
+    <div class="section-div" id="section-4-div" style="display:flex;">
         <h1 id="section-title">Sound Test</h1>
-        
+        <button id="sound-btn">Play Sound</button>
+        <div id="synth-div">
+            <div id="white-keys">
+                <div class="white-key" data-note="C4">
+                    <button class="black-key" data-note="C#4"></button>
+                </div>
+                <div class="white-key" data-note="D4">
+                    <button class="black-key" data-note="D#4"></button>
+                </div>
+                <div class="white-key" data-note="E4"></div>
+                <div class="white-key" data-note="F4">
+                    <button class="black-key" data-note="F#4"></button>
+                </div>
+                <div class="white-key" data-note="G4">
+                    <button class="black-key" data-note="G#4"></button>
+                </div>
+                <div class="white-key" data-note="A4">
+                    <button class="black-key" data-note="A#4"></button>
+                </div>
+                <div class="white-key" data-note="B4"></div>
+                <div class="white-key" data-note="C5">
+                    <button class="black-key" data-note="C#5"></button></div>
+                <div class="white-key" data-note="D5">
+                    <button class="black-key" data-note="D#5"></button>
+                </div>
+                <div class="white-key" data-note="E5"></div>
+                <div class="white-key" data-note="F5">
+                    <button class="black-key" data-note="F#5"></button>
+                </div>
+                <div class="white-key" data-note="G5">
+                    <button class="black-key" data-note="G#5"></button>
+                </div>
+                <div class="white-key" data-note="A5">
+                    <button class="black-key" data-note="A#5"></button>
+                </div>
+                <div class="white-key" data-note="B5"></div>
+            </div>
+        </div>
     </div>
-
     <script src="script.js" type="module"></script>
     <script src="memory-test.js" type="module"></script>
     <script src="reaction-test.js" type="module"></script>
     <script src="type-test.js" type="module"></script>
+    <script src="sound-test.js" type="module"></script>
 </body>
 </html>

@@ -1,3 +1,4 @@
 COMP1101 Web Development Assignment Specification.pdf
 node_modules/
 package-lock.json
+.env

@@ -10,6 +10,7 @@ let waitTimeout;
 let reactionTimes = [];
 let userTime = 0;
 let finishedTest = false;
+let totalTests = 3;
 
 reactionBtn.addEventListener("click", function() {
     // Check if the user started the test and pressed too early
@@ -58,14 +59,14 @@ reactionBtn.addEventListener("click", function() {
     }
 
     // Check if the test is finished
-    if (reactionTimes.length == 5 && !finishedTest){
+    if (reactionTimes.length == totalTests && !finishedTest){
         finishedTest = true;
         // Show the user their stats
         let average = 0;
         reactionTimes.forEach(t => {
             average += t;
         });
-        average = Math.round(average / 5);
+        average = Math.round(average / totalTests);
         reactionBtn.innerHTML = `Test Finished!<br>Click to go again!`;
         resultsP.innerHTML = `Average Time: ${average}ms<br>Times: ${reactionTimes.join("ms, ")}ms`
     };

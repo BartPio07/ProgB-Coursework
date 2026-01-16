@@ -1,6 +1,7 @@
-// Import packages to be used
-import { faker } from 'https://cdn.jsdelivr.net/npm/@faker-js/faker/+esm';
+// Import modules to be used
 import Chart from 'https://esm.sh/chart.js/auto';
+import { faker } from 'https://cdn.jsdelivr.net/npm/@faker-js/faker/+esm';
+import Swal from "https://esm.sh/sweetalert2";
 
 // Get elements for the type test
 var typeTextInput = document.getElementById("type-test-input");
@@ -14,6 +15,12 @@ var overlayCountDownP = document.getElementById("count-down-p");
 var averageWPMP = document.getElementById("average-wpm-p");
 var minWPMP = document.getElementById("min-wpm-p");
 var maxWPMP = document.getElementById("max-wpm-p");
+var saveScoreBtn = document.getElementById("save-score-btn");
+var nameInput = document.getElementById("name-input");
+var scoreSubmitDiv = document.getElementById("score-submit-div");
+var getLeaderboardBtn = document.getElementById("get-leaderboard-btn");
+var leaderboard = document.getElementById("leaderboard-table");
+var leaderboardDiv = document.getElementById("whole-leaderboard");
 
 // Add functionality to the type test
 // Initialise needed variables
@@ -25,15 +32,44 @@ let currentTimeSeconds;
 let testInterval;
 let countDownInterval;
 let graphInputs = []
-const maxWords = 20;
+const maxWords = 15;
 let wordGraph = null;
 let startTest = false;
+let averageWPM;
+let minWPM;
+let maxWPM;
 
 // Disable the user input element
 typeTextInput.disabled = true;
 
 showDisplayWords(false);
 
+getLeaderboardBtn.addEventListener("click", updateLeaderboard);
+
+
+// Save score to the database
+saveScoreBtn.addEventListener("click", async function(){
+    // Get the wpm typed and name of the user
+    const name = nameInput.value;
+    // Clear the name input
+    nameInput.value = "";
+    if (validName(name)){
+        // Send a request to the server
+        const response = await fetch("/api/submit-score", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name, wpm: averageWPM })
+        })
+
+        // Check for a response from the server
+        const result = await response.json();
+        const toast = createToast();
+        showToast(toast, "", result.message);
+        saveScoreBtn.disabled = true;   
+    }
+});
+
+// Start the test
 typeStartBtn.addEventListener("click", async function(){
     // Reset variables
     resetTypeTest();
@@ -83,6 +119,7 @@ typeStartBtn.addEventListener("click", async function(){
     });
 });
 
+// Check users inputs + handle finishing
 typeTextInput.addEventListener("input", async function(){
     userInput = typeTextInput.value;
     // Remove any space character
@@ -110,32 +147,84 @@ typeTextInput.addEventListener("input", async function(){
         // Create the graph for the user to see their performance
         wordGraph = createGraph("line", "WPM/Time", graphInputs, "Time/s", "WPM");
         // Show the users stats in text form
-        averageWPMP.innerHTML = `Average WPM:${Math.round((userInputWords.length/currentTimeSeconds)*60)}`;
-        minWPMP.innerHTML = `Min WPM:${Math.round(Math.min(...graphInputs.map(p => p.y)))}`;
-        maxWPMP.innerHTML = `Max WPM:${Math.round(Math.max(...graphInputs.map(p => p.y)))}`;
+        averageWPM = Math.round((userInputWords.length/currentTimeSeconds)*60);
+        minWPM = Math.round(Math.min(...graphInputs.map(p => p.y)));
+        maxWPM = Math.round(Math.max(...graphInputs.map(p => p.y)));
+        averageWPMP.innerHTML = `Average WPM:${averageWPM}`;
+        minWPMP.innerHTML = `Min WPM:${minWPM}`;
+        maxWPMP.innerHTML = `Max WPM:${maxWPM}`;
+        // Show the save score elements
+        scoreSubmitDiv.style.display = "flex";
+        // Show the leaderboard
+        leaderboardDiv.style.display = "flex";
+        updateLeaderboard();
     }
 });
+
+async function updateLeaderboard(){
+    try{
+    const response = await fetch("/api/get-leaderboard")
+    const scores = await response.json();
+
+    leaderboard.innerHTML = `
+        <tr>
+            <th>Name</th>
+            <th>Wpm</th>
+            <th>Date</th>
+        </tr>
+    `;
+
+    scores.forEach(player => {
+        leaderboard.innerHTML += `
+            <tr>
+                <td>${player.name}</td>
+                <td>${player.wpm}</td>
+                <td>${player.date}</td>
+            </tr>
+        `;
+        const toast = createToast();
+        showToast(toast, "", "Updated leaderboard");
+    });
+    }
+    catch (err){
+
+    }
+}
+
+// Function to validate the inputted name
+function validName(name){
+
+    if (name.length < 1){ return false; }
+
+    return true;
+}
 
 // Function which generates a set amount of words
 function generateWords(amount){
     // Create local variables to make and store the wods
     let words = [];
     let word = "";
-    for (let i = 0; i < amount; i++){
-        // Get the word and make it lowercase
-        word = faker.word.words().toLowerCase()
-        // Check if the word has any spaces
+    let ranNum = 0;
+
+    // Use a while loop to generate the words - good to use to not return any duplicates
+    while (true){
+        // Get a random number from 3 - 6
+        ranNum = Math.floor((Math.random() * (6-3+1))) + 3
+        // Get a random word with the length of between 3 and 6 inclusive, and make it lowercase
+        word = faker.word.sample(ranNum).toLowerCase()
         word.split(" ").forEach(w => {
             // Add the split words into the words list
-            words.push(`${w}`);
+            // Check if the word is already in the list
+            if (!words.includes(`${w}`)){
+                words.push(`${w}`);
+            }
         });
-        
+        // Check if the number of words generated is the maximum number of allowed words
+        if (words.length == amount){
+            // Return the words
+            break;
+        }
     }
-    // Remove words from the list since some words may have been split with " "
-    while (words.length > amount){
-        words.pop()
-    }
-
     return words;
 }
 
@@ -182,6 +271,25 @@ function createGraph(graphType, graphLabel, inputs, xLabel, yLabel){
         }
     });
     return graph;
+}
+
+// Function which shows the toast to the user
+function showToast(toast, title, msg){
+    toast.fire({
+        title: title,
+        text: msg
+    });
+}
+
+// Returns a toast to show the user
+function createToast(){
+    return Swal.mixin({
+            toast: true,
+            position: "bottom-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+        });
 }
 
 // Function to toggle the visibility of the display words
@@ -246,8 +354,14 @@ function resetTypeTest(){
     maxWPMP.innerHTML = "";
     // Reset the text in the input box
     typeTextInput.value = "";
+    // Hide the save score elements
+    scoreSubmitDiv.style.display = "none";
+    saveScoreBtn.disabled = false;
+    leaderboardDiv.style.display = "none";
+    
 }
 
+// Reset everything. Called when user clicks off this section
 function fullyResetTypeTest(){
     resetTypeTest();
     // Activate the start button
@@ -255,6 +369,7 @@ function fullyResetTypeTest(){
     typeTextInput.disabled = true;
     // Clear any showing text
     currentTimeP.innerHTML = "";
+    nameInput.value = "";
     
 }
 

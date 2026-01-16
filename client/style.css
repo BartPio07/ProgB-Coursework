@@ -21,7 +21,8 @@ button{
     font-weight: bold;
     border: none;
     border-radius: 10px;
-    width: 100px;
+    min-width: 100px;
+    min-height: min-content;
     height: 25px;
     background-color: var(--secondary-colour);
     box-shadow: 0px 0px 7px 1px var(--secondary-colour);
@@ -44,6 +45,19 @@ h1{
     margin: 10px;
     display: flex;
     justify-content: center;;
+}
+
+input{
+    border: solid;
+    border-radius: 1vh;
+    border-color: var(--secondary-colour);
+    font-family: var(--font-family);
+    font-size: 2vh;
+    box-shadow: 0px 0px 7px 2px var(--secondary-colour);
+}
+
+input:focus{
+    outline: none;
 }
 
 #reaction-btn{
@@ -300,4 +314,127 @@ h1{
     text-align: center;
     margin: 0px;
     padding: 20px;
+}
+
+#score-submit-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+#name-input{
+    font-size: 2vh;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.swal2-popup.swal2-toast{
+    background-color: var(--main-colour);
+    box-shadow: 0px 0px 7px 2px var(--secondary-colour);
+    color: white;
+    border: solid;
+    border-color: var(--secondary-colour);
+    border-radius: 10px;
+}
+
+#graphics-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: fit-content;
+}
+
+.leaderboard{
+    background-color: var(--main-colour);
+    color: white;
+    min-width: 20vh;
+    min-height: 40vh;
+    border-radius: 20px;
+    border: solid;
+    box-shadow: 0px 0px 7px 2px var(--secondary-colour);
+    border-color: var(--secondary-colour);
+    font-size: 1.5vh;
+}
+
+th{
+    padding: 10px;
+}
+td{
+    padding: 10px;
+    padding-top: 0px;
+}
+
+#whole-leaderboard{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#get-leaderboard-btn{
+    margin-top: 10px;
+}
+
+
+
+
+#synth-div {
+    position: relative;
+    width: 75vw;
+    height: 50vh;
+    background-color: #888;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px auto;
+    overflow: hidden; 
+}
+
+#white-keys {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 5px;
+}
+
+.white-key {
+    position: relative;
+    flex: 1;
+    background-color: white;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 0 0 8px 8px;
+    box-shadow: none !important;
+    border: none;
+}
+
+.black-key {
+    min-width: 10px;
+    max-width: 100px;
+    position: absolute;
+    top: 0;
+    right: calc(-30% - 2.5px); 
+    width: 60%; 
+    height: 60%;
+    background-color: black;
+    border: none;
+    border-radius: 0px 0px 6px 6px;
+    pointer-events: auto; 
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: none !important;
+}
+
+/* Styling for when a key is being clicked */
+.white-key.active {
+    background-color: #e0e0e0;
+    box-shadow: none!important;
+}
+
+.black-key.active {
+    background-color: #333;
+    /* Keeps the black key appearing "pushed" down */
+    transform: scaleY(0.98);
+    transform-origin: top;
 }
