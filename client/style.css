@@ -407,6 +407,7 @@ td{
     border-radius: 0 0 8px 8px;
     box-shadow: none !important;
     border: none;
+    transition: 0.1s;
 }
 
 .black-key {
@@ -424,17 +425,33 @@ td{
     cursor: pointer;
     z-index: 10;
     box-shadow: none !important;
+    transition: 0s;
 }
 
-/* Styling for when a key is being clicked */
+
+.white-key:hover:not(:has(.black-key:hover)){
+    background-color: gold;
+}
+
+.black-key:hover{
+    background-color: darkgoldenrod;
+}
+
+.white-key.played{
+    background-color: var(--main-colour);
+}
+
+.black-key.played{
+    background-color: var(--main-colour);    
+}
+
 .white-key.active {
-    background-color: #e0e0e0;
-    box-shadow: none!important;
+    background-color: rgb(200, 170, 0) !important;
+    box-shadow: none !important;
 }
 
 .black-key.active {
-    background-color: #333;
-    /* Keeps the black key appearing "pushed" down */
+    background-color: rgb(149, 109, 8);
     transform: scaleY(0.98);
     transform-origin: top;
 }

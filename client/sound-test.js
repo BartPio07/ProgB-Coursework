@@ -3,6 +3,8 @@ import * as Tone from 'https://cdn.skypack.dev/tone';
 let soundBtn = document.getElementById("sound-btn");
 const sound = new Tone.Synth({volume: -12}).toDestination();
 const allKeys = document.querySelectorAll(".white-key, .black-key ");
+let currentNote;
+let noteTime;
 
 let notes = [
     "C4", "D4", "E4", "F4", "G4", "A4", "B4", // Octave 4
@@ -11,14 +13,13 @@ let notes = [
     "C#5", "D#5", "F#5", "G#5", "A#5",  // Sharp Keys Octave 5
 ];
 
-allKeys.forEach(key => {
+allKeys.forEach(key => { 
     key.addEventListener("pointerdown", async (e) => {
         e.stopPropagation();
 
         if (Tone.context.state !== "running"){
             await Tone.start();
         };
-
         const note = key.getAttribute("data-note");
         if (note){
             playNote(note);
@@ -40,8 +41,18 @@ soundBtn.addEventListener("click", async () => {
         await Tone.start();
     }
     const ranNum = Math.floor(Math.random() * notes.length)
-    console.log(notes[ranNum]);
-    playNote(notes[ranNum]);
+    currentNote = notes[ranNum];
+    allKeys.forEach(key => {
+        noteTime = setTimeout(function() {
+            key.classList.remove("played");
+        }, 500);
+
+        const note = key.getAttribute("data-note");
+        if (currentNote == note){
+            key.classList.add("played");
+        }
+    });
+    // playNote(notes[ranNum]);
 
 });
 
