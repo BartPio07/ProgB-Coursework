@@ -60,6 +60,94 @@ input:focus{
     outline: none;
 }
 
+p{
+    margin: 0px;
+}
+
+#test-div{
+    display: flex;
+    width: 100vw;
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+}
+
+/* DIV TO THE LEFT OF THE REACTION BUTTON, HOLDS ALL THE INFORMATION FOR THE USER */
+#reaction-info-div{
+    display: flex;
+    background-color: var(--secondary-colour);
+    width: 20vw;
+    height: 50vh;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 1px var(--secondary-colour);
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+    align-items: center;
+}
+
+
+/* DIV HOLDING THE TOTAL AMOUNT OF TESTS PER ATTEMPT */
+#reaction-attempts-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+/* AMOUNT OF TESTS */
+.mini-title-p{
+    color: var(--main-colour);
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    font-size: 19px;
+}
+
+/* REACTION SLIDER VALUE */
+#reaction-slider-value{
+    margin-top: 10px;
+    margin-left: 15px;
+    color: var(--main-colour);
+    font-size: 19px;
+}
+
+/* REATION RESULTS PARAGRAPH */
+#reaction-results{
+    color: var(--main-colour);
+    font-size: 17px;
+    font-weight: bold;
+}
+
+/* REACTION TESTS AMOUNT SLIDERBAR */
+#reaction-test-slider{
+    width: 15vw;
+    box-shadow: none;
+    appearance: none;
+    background: var(--main-colour);
+    border-radius: 15px;
+    padding-right: 20px;
+    box-shadow: 0px 0px 5px 1px rgb(60, 60, 60);
+    margin-top: 5px;
+}
+
+/* CSS FOR THE KNOB OF THE SIDERBAR */
+#reaction-test-slider::-webkit-slider-thumb{
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--secondary-colour);
+    height: 3vh;
+    width: 1vw;
+    margin: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 5px 1px rgb(60, 60, 60);
+}
+
 #reaction-btn{
     padding: 20px 30px;
     border: none;
@@ -70,7 +158,7 @@ input:focus{
     font-size: 5vh;
     box-shadow: 0px 0px 5px 1px var(--main-colour);
     transition: 0.1s;
-    width: 50vh;
+    width: 70vh;
     height: 50vh;
 }
 
@@ -119,7 +207,6 @@ input:focus{
 
 .nav-btn{
     margin-right: 5px;
-    /* padding: 10px 15px; */
     border: none;
     border-radius: 5px;
     background-color: var(--secondary-colour);
@@ -198,6 +285,8 @@ input:focus{
     height: 5vh;
     font-size: 2vh;
 }
+
+/* Styling for the typing test */
 
 #type-test-input{
     border:none;
@@ -378,17 +467,18 @@ td{
 }
 
 
-
+/* Sound test styling */
 
 #synth-div {
     position: relative;
     width: 75vw;
     height: 50vh;
-    background-color: #888;
+    background-color: #636363;
     padding: 20px;
     border-radius: 15px;
     margin: 20px auto;
     overflow: hidden; 
+    box-shadow: 0px 0px 20px 2px darkgoldenrod;
 }
 
 #white-keys {
@@ -434,7 +524,10 @@ td{
 }
 
 .black-key:hover{
-    background-color: darkgoldenrod;
+    background-color: gold;
+    outline: solid;
+    outline-color: var(--main-colour);
+    outline-width: 5px;
 }
 
 .white-key.played{
@@ -451,7 +544,7 @@ td{
 }
 
 .black-key.active {
-    background-color: rgb(149, 109, 8);
+    background-color: rgb(200, 170, 0);
     transform: scaleY(0.98);
     transform-origin: top;
 }

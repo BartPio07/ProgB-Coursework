@@ -3,7 +3,10 @@ const port = 3000;
 // Create a server using express
 import express from "express";
 // Import environment variables
-import "dotenv/config"
+import "dotenv/config";
+// Import the file system
+import fs from "node:fs/promises";
+import path from "node:path";
 
 // MAKE THE SERVER PUBLIC WITH NGROK
 // RUN THE SERVER
@@ -89,8 +92,40 @@ app.get("/api/get-leaderboard", async (req, res) => {
     }
     catch (error){
         res.status(500).json({ error: error.message });
-        
     }
+});
+
+// Save the number of reaction test attempts
+app.post("/save-reaction-attempts", async (req, res) => {
+    // Get the path of the settings file
+    const dataPath = path.resolve("settings.json");
+    try{
+        // Get the contents
+        const attempts = req.body;
+        // Write to the file
+        await fs.writeFile(dataPath, JSON.stringify(attempts, null, 2))     
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+// Get the number of reaction test attetmpts
+app.get("/get-reaction-attempts", async (req, res) => {
+    // Get the path of the settings file
+    const dataPath = path.resolve("settings.json");
+    try{
+        // Read the file
+        const data = await fs.readFile(dataPath, "utf8");
+        // Turn the string into a json object
+        const settings = JSON.parse(data);
+        // Send back the data
+        res.json({reactionAttempts: settings.reactionAttempts});
+    }
+    catch (err){
+        // Send back the default value
+        res.json({attempts: 3});
+    };
 });
 
 app.get("/", (request, response) => {

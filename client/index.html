@@ -15,10 +15,20 @@
         <button class="nav-btn" id="sec4-btn">Sound Test</button>
     </div>
 
-    <div class="section-div" id="reaction-div" style="display:none;">
+    <div class="section-div" id="reaction-div" style="display:flex;">
         <h1 id="section-title">Reaction Test</h1>
-        <button id="reaction-btn">Start?</button>
-        <p id="reaction-results"></p>
+        <div id="test-div">
+            <div id="reaction-info-div">
+                <div id="reaction-attempts-div">
+                    <p class="mini-title-p">Amount Of Attempts:</p>
+                    <p id="reaction-slider-value"> </p>
+                </div>
+                <input type="range" min="1" max="10" value="3" id="reaction-test-slider">
+                <p class="mini-title-p" id="reaction-results-title"> Results</p>
+                <p id="reaction-results"></p>
+            </div>
+            <button id="reaction-btn">Start?</button>
+        </div>
     </div>
 
     <div class="section-div" id="memory-div" style="display:none;">
@@ -84,7 +94,7 @@
         </div>
     </div>
 
-    <div class="section-div" id="section-4-div" style="display:flex;">
+    <div class="section-div" id="section-4-div" style="display:none;">
         <h1 id="section-title">Sound Test</h1>
         <button id="sound-btn">Play Sound</button>
         <div id="synth-div">

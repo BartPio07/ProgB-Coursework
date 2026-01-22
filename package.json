@@ -1,11 +1,15 @@
 {
   "dependencies": {
+    "@faker-js/faker": "^10.2.0",
+    "chart.js": "^4.5.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "firebase": "^12.6.0"
+    "firebase": "^12.6.0",
+    "sweetalert2": "^11.26.17"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest"
   },
   "type": "module"
 }

@@ -1,6 +1,8 @@
 // Get elements for the reaction test
 var reactionBtn = document.getElementById("reaction-btn");
 var resultsP = document.getElementById("reaction-results");
+var slider = document.getElementById("reaction-test-slider");
+var sliderValue = document.getElementById("reaction-slider-value")
 
 // Add functionality to the reaction time test
 let beginTest = false;
@@ -11,6 +13,60 @@ let reactionTimes = [];
 let userTime = 0;
 let finishedTest = false;
 let totalTests = 3;
+
+// Update the initial value of the attempts - "total tests"
+getAmountAttempts();
+
+// Function to save the amount of attemps selected
+async function saveAmountAttempts(attempts){
+    try{
+        const response = await fetch("/save-reaction-attempts", {
+            method: "POST",
+            headers: {"Content-Type": "application/JSON"},
+            body: JSON.stringify({
+                reactionAttempts: attempts
+            })
+        });
+
+        const result = await response.json();
+        console.log("Saved number of attempts", result.message);
+    }
+    catch (err){ 
+        console.log("Error saving attempts", err)
+    }
+};
+
+async function getAmountAttempts(){
+    try{
+        const response = await fetch("/get-reaction-attempts");
+        const attempts = await response.json();
+        totalTests = attempts.reactionAttempts;
+    }
+    catch (err){
+        // Set the default attempts
+        totalTests = 3;
+    };
+
+    // Update the slider value to be the new attempts value
+        slider.value = totalTests;
+        sliderValue.innerHTML = slider.value;
+};
+
+// Set the current value of the slider to the slider value <p>
+sliderValue.innerHTML = slider.value;
+// Check if the slider value has changed
+// Only save when the value is finalized
+slider.onchange = function() {
+    saveAmountAttempts(totalTests);
+}
+// Update immediately
+slider.oninput = function(){
+    // Update the value of the tests
+    sliderValue.innerHTML = slider.value;
+    totalTests = Number(slider.value);
+    // Reset the test
+    resetReacionTimeTest();
+}
 
 reactionBtn.addEventListener("click", function() {
     // Check if the user started the test and pressed too early
@@ -31,8 +87,9 @@ reactionBtn.addEventListener("click", function() {
         reactionBtn.classList.remove("early");
     }
     if (beginTest && !finishedTest){
-        // Calcuate delay (between 2-5 seconds)
-        delay = Math.random() * (1000) + 2000;
+        // Calcuate delay (between 2-3 seconds)
+        // random() * range + minimum
+        delay = Math.random() * 2500 + 500
         // Wait the delay
         waitTimeout = setTimeout(function() {
             reactionBtn.innerHTML = "CLICK!";
@@ -68,7 +125,8 @@ reactionBtn.addEventListener("click", function() {
         });
         average = Math.round(average / totalTests);
         reactionBtn.innerHTML = `Test Finished!<br>Click to go again!`;
-        resultsP.innerHTML = `Average Time: ${average}ms<br>Times: ${reactionTimes.join("ms, ")}ms`
+        // resultsP.innerHTML = `Average Time: ${average}ms<br>Times: ${reactionTimes.join("ms, ")}ms`
+        resultsP.innerHTML = `Average Time: ${average}ms`;
     };
 });
 

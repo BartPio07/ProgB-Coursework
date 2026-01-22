@@ -52,7 +52,7 @@ soundBtn.addEventListener("click", async () => {
             key.classList.add("played");
         }
     });
-    // playNote(notes[ranNum]);
+    playNote(currentNote);
 
 });
 
