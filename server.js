@@ -50,12 +50,14 @@ app.post("/api/submit-score", async (req, res) => {
         // Read the data sent from the client
         const { name, wpm } = req.body;
 
+        // Add the data to the database
         await addDoc(collection(dataBase, "scores"), {
             name: name,
             wpm: Number(wpm),
             timestamp: new Date()
         });
-
+        
+        // Respond with a successfull message
         res.json({ status: "success", message: "Score Saved"});
     }
     catch(error) {
@@ -66,21 +68,28 @@ app.post("/api/submit-score", async (req, res) => {
 // Get the leaderboard data from the database
 app.get("/api/get-leaderboard", async (req, res) => {
     try{
+        // Query the database
         const q = query(collection(dataBase, "scores"), orderBy("wpm", "desc"), limit(10));
+        // Ger the data from the query
         const querySnapshot = await getDocs(q);
 
         let leaderboardData = [];
 
+        // Loop through the data from the query
         querySnapshot.forEach((doc) => {
+            // Get the data
             const data = doc.data();
+            // Get the time submitted
             let dateData = data.timestamp.toDate().toString();
             let time = dateData.split(" ")[4];
             time = time.split(":")[0] + ":" + time.split(":")[1]
+            // Get the date of when the score was submitted
             const date = data.timestamp.toDate().toLocaleDateString("en-UK", {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit"
             })
+            // Add the data to the leaderboard list
             leaderboardData.push({
                 name: data.name,
                 wpm: data.wpm,

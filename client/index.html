@@ -15,7 +15,7 @@
         <button class="nav-btn" id="sec4-btn">Sound Test</button>
     </div>
 
-    <div class="section-div" id="reaction-div" style="display:flex;">
+    <div class="section-div" id="reaction-div" style="display:none;">
         <h1 id="section-title">Reaction Test</h1>
         <div id="test-div">
             <div id="reaction-info-div">
@@ -94,9 +94,16 @@
         </div>
     </div>
 
-    <div class="section-div" id="section-4-div" style="display:none;">
+    <div class="section-div" id="section-4-div" style="display:flex;">
         <h1 id="section-title">Sound Test</h1>
-        <button id="sound-btn">Play Sound</button>
+        <div id="sound-buttons-div">
+            <div id="sound-info-div">
+                <p id="sound-info-p">Press the start button to play!</p>
+                <p id="sound-score-p" style="display:none"></p>
+            </div>
+            <button id="sound-btn">Start Test</button>
+            <button id="record-song-btn">Record Song</button>
+        </div>
         <div id="synth-div">
             <div id="white-keys">
                 <div class="white-key" data-note="C4">

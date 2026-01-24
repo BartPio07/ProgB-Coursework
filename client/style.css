@@ -132,6 +132,7 @@ p{
     padding-right: 20px;
     box-shadow: 0px 0px 5px 1px rgb(60, 60, 60);
     margin-top: 5px;
+    cursor: pointer;
 }
 
 /* CSS FOR THE KNOB OF THE SIDERBAR */
@@ -547,4 +548,24 @@ td{
     background-color: rgb(200, 170, 0);
     transform: scaleY(0.98);
     transform-origin: top;
+}
+
+#sound-buttons-div{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+#sound-info-div{
+    background-color: var(--main-colour);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 1px var(--main-colour);
+
+}
+
+#sound-score-p, #sound-info-p{
+    color: gold;
+    padding: 10px;
+    margin: 0px;
 }
