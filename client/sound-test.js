@@ -8,6 +8,8 @@ const allKeys = document.querySelectorAll(".white-key, .black-key ");
 let currentNote;
 let score = 0;
 let started = false;
+let startClassTimer = false;
+let classTimeout;
 
 let notes = [
     "C4", "D4", "E4", "F4", "G4", "A4", "B4", // Octave 4
@@ -35,6 +37,21 @@ allKeys.forEach(key => {
                     score += 1;
                     // update the score tag
                     soundScoreP.innerHTML = `Score: ${score} | ${currentNote}`;
+
+                    key.classList.add("correct");
+                    classTimeout = setTimeout(function() {
+                        key.classList.remove("correct");
+                        clearTimeout(classTimeout);
+                    }, 200);
+                    updateNewNote();
+                }
+                else{
+                    key.classList.add("wrong");
+                    classTimeout = setTimeout(function() {
+                        key.classList.remove("wrong");
+                        clearTimeout(classTimeout);
+                    }, 200);
+                    updateNewNote();
                 }
             }
             playNote(note);
@@ -68,10 +85,7 @@ soundBtn.addEventListener("click", async () => {
     if (!sound){
         sound = new Tone.Synth({volume: -12}).toDestination();
     };
-    const ranNum = Math.floor(Math.random() * notes.length)
-    currentNote = notes[ranNum];
-    soundScoreP.innerHTML = `Score: ${score} | ${currentNote}`;
-    playNote(currentNote);
+    updateNewNote();
 });
 
 async function playNote(note){
@@ -80,4 +94,14 @@ async function playNote(note){
         sound = new Tone.Synth({volume: -12}).toDestination();
     };
     sound.triggerAttackRelease(note, "8n");
+}
+
+function getNote(){
+    return notes[Math.floor(Math.random() * notes.length)];
+}
+
+function updateNewNote(){
+    currentNote = getNote();
+    soundScoreP.innerHTML = `Score: ${score} | ${currentNote}`;
+    playNote(currentNote);
 }

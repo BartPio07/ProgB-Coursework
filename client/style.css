@@ -550,6 +550,28 @@ td{
     transform-origin: top;
 }
 
+.white-key.wrong{
+    background-color: red !important;
+    box-shadow: none !important;
+}
+
+.black-key.wrong{
+    background-color: red;
+    transform: scaleY(0.98);
+    transform-origin: top;
+}
+
+.white-key.correct{
+    background-color: green !important;
+    box-shadow: none !important;
+}
+
+.black-key.correct{
+    background-color: green;
+    transform: scaleY(0.98);
+    transform-origin: top;
+}
+
 #sound-buttons-div{
     display: flex;
     flex-direction: row;
