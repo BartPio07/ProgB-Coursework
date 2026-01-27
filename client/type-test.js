@@ -121,7 +121,7 @@ typeStartBtn.addEventListener("click", async function(){
 
 // Check users inputs + handle finishing
 typeTextInput.addEventListener("input", async function(){
-    userInput = typeTextInput.value;
+    userInput = typeTextInput.value.toLowerCase();
     // Remove any space character
     if (userInput.includes(" ")){
         // Stop the user from being able to type the space character

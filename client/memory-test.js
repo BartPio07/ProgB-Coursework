@@ -43,7 +43,7 @@ memStartBtn.addEventListener("click", async function() {
     };
     
     // Wait a second before starting the game
-    await showDelay(1000);
+    await showDelay(400);
     // Call the function to show the user what they have to remember
     showMemorySequence()
 });
@@ -87,7 +87,7 @@ memDiv.addEventListener("click", async function(event) {
         if (userChosenBoxes[currentIdx] == chosenBoxes[currentIdx]){
             // Style the button to show correctness.
             clickedBtn.classList.add("correct");
-            await showDelay(300);
+            await showDelay(100);
             clickedBtn.classList.remove("correct");
         }
         else{
@@ -113,7 +113,7 @@ memDiv.addEventListener("click", async function(event) {
 
     // Check if the user has finished selecting
     if (userChosenBoxes.length == maxIndex-1 && started){
-        await showDelay(1000);
+        await showDelay(500);
         // Show the next sequence
         showMemorySequence();
     }
