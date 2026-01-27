@@ -15,7 +15,7 @@
         <button class="nav-btn" id="sec4-btn">Sound Test</button>
     </div>
 
-    <div class="section-div" id="reaction-div" style="display:none;">
+    <div class="section-div" id="reaction-div" style="display:flex;">
         <h1 id="section-title">Reaction Test</h1>
         <div id="test-div">
             <div id="reaction-info-div">
@@ -51,7 +51,6 @@
             </div>
         </div>
         <button id="memory-start-btn">Start</button>
-        <p id="memory-score"></p>
     </div>
 
     <div class="section-div" id="section-3-div" style="display:none;">
@@ -94,15 +93,19 @@
         </div>
     </div>
 
-    <div class="section-div" id="section-4-div" style="display:flex;">
+    <div class="section-div" id="section-4-div" style="display:none;">
         <h1 id="section-title">Sound Test</h1>
         <div id="sound-buttons-div">
             <div id="sound-info-div">
-                <p id="sound-info-p">Press the start button to play!</p>
+                <p id="sound-info-p">| Press the start button to play! |</p>
                 <p id="sound-score-p" style="display:none"></p>
             </div>
             <button id="sound-btn">Start Test</button>
-            <button id="record-song-btn">Record Song</button>
+            <!-- <button id="record-song-btn">Record Song</button> -->
+            <div id="sound-checkbox-div">
+                <input type="checkbox" id="note-checkbox">
+                <p id="sound-checkbox-description">Show Note To Play?</p>
+            </div>
         </div>
         <div id="synth-div">
             <div id="white-keys">
@@ -142,6 +145,15 @@
             </div>
         </div>
     </div>
+
+    <div id="opacity-overlay"></div>
+    <div id="overlay">
+        <div id="main-overlay">
+            <p id="overlay-info-p"></p>
+            <button id="overlay-dismiss-btn">Dismiss</button>
+        </div>
+    </div>
+
     <script src="script.js" type="module"></script>
     <script src="memory-test.js" type="module"></script>
     <script src="reaction-test.js" type="module"></script>

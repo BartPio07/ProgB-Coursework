@@ -5,11 +5,13 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "firebase": "^12.6.0",
+    "jest": "^30.2.0",
+    "supertest": "^7.2.2",
     "sweetalert2": "^11.26.17"
   },
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit"
   },
   "type": "module"
 }

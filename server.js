@@ -44,11 +44,30 @@ app.use(express.json());
 // Make the express server use static file from the client folder
 app.use(express.static("client"));
 
+// Check if the server is alive
+app.get("check-alive", async (req, res) => {
+    try{
+        // Respond with good status
+        res.status(200);
+    }
+    catch{
+        // Respond with bad server status
+        res.status(500);
+    }
+});
+
 // Route the user to save their score
 app.post("/api/submit-score", async (req, res) => {
     try{
         // Read the data sent from the client
         const { name, wpm } = req.body;
+        // Check if the data sent is valid
+        if (name === undefined || wpm === undefined){
+            return res.status(400).json({
+                status: "failure",
+                message: "Missing required fields: name or wpm"
+            });
+        };
 
         // Add the data to the database
         await addDoc(collection(dataBase, "scores"), {
@@ -59,9 +78,10 @@ app.post("/api/submit-score", async (req, res) => {
         
         // Respond with a successfull message
         res.json({ status: "success", message: "Score Saved"});
+        res.status(200);
     }
     catch(error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ status: "failure", message: error.message });
     }
 });
 
@@ -111,11 +131,21 @@ app.post("/save-reaction-attempts", async (req, res) => {
     try{
         // Get the contents
         const attempts = req.body;
+        // Check if the data contains the attempts
+        if (!attempts || attempts.reactionAttempts === undefined){
+            return res.status(400).json({error: "Missing key"});
+        }
+
         // Write to the file
-        await fs.writeFile(dataPath, JSON.stringify(attempts, null, 2))     
+        await fs.writeFile(dataPath, JSON.stringify(attempts, null, 2));
+
+        // Respond with some data
+        res.status(200);
+        res.json({message: "saved data"});
     }
     catch (err) {
         console.log(err);
+        res.status(500).json({error: `Server error: ${err}`});
     }
 });
 
@@ -129,11 +159,15 @@ app.get("/get-reaction-attempts", async (req, res) => {
         // Turn the string into a json object
         const settings = JSON.parse(data);
         // Send back the data
+        res.status(200);
         res.json({reactionAttempts: settings.reactionAttempts});
+        
     }
     catch (err){
         // Send back the default value
-        res.json({attempts: 3});
+        res.status(500);
+        res.json({reactionAttempts: 3});
+        
     };
 });
 
@@ -146,3 +180,4 @@ app.listen(port, () => {
 });
 
 
+export default app;

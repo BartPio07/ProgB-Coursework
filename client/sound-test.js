@@ -3,13 +3,17 @@ import * as Tone from 'https://cdn.skypack.dev/tone';
 let soundBtn = document.getElementById("sound-btn");
 let soundScoreP = document.getElementById("sound-score-p");
 let soundInfoP = document.getElementById("sound-info-p");
-let sound;
+let noteCheckbox = document.getElementById("note-checkbox");
 const allKeys = document.querySelectorAll(".white-key, .black-key ");
+let opacityOveraly = document.getElementById("opacity-overlay");
+let overlay = document.getElementById("overlay");
+let overlayInfoP = document.getElementById("overlay-info-p");
+let sound;
 let currentNote;
 let score = 0;
 let started = false;
-let startClassTimer = false;
 let classTimeout;
+let volume = -10;
 
 let notes = [
     "C4", "D4", "E4", "F4", "G4", "A4", "B4", // Octave 4
@@ -18,6 +22,13 @@ let notes = [
     "C#5", "D#5", "F#5", "G#5", "A#5",  // Sharp Keys Octave 5
 ];
 
+
+// Handle checkbox changes
+noteCheckbox.addEventListener("change", () => {
+    updateScoreTag();
+});
+
+// Loop through each piano key
 allKeys.forEach(key => {
     // Get the note to play from the key
     const note = key.getAttribute("data-note");
@@ -28,15 +39,13 @@ allKeys.forEach(key => {
         // Start tone if not already
         await Tone.start();
         if (!sound){
-            sound = new Tone.Synth({volume: -12}).toDestination();
+            sound = new Tone.Synth({volume: volume}).toDestination();
         };
         // Check if the note is not null and play it
         if (note){
             if (started){
                 if (note == currentNote){
                     score += 1;
-                    // update the score tag
-                    soundScoreP.innerHTML = `Score: ${score} | ${currentNote}`;
 
                     key.classList.add("correct");
                     classTimeout = setTimeout(function() {
@@ -49,13 +58,23 @@ allKeys.forEach(key => {
                     key.classList.add("wrong");
                     classTimeout = setTimeout(function() {
                         key.classList.remove("wrong");
+                        // Loop through the list again to remove any "glitched" keys
+                        allKeys.forEach(k => {
+                            k.classList.remove("wrong");
+                        });
                         clearTimeout(classTimeout);
                     }, 200);
-                    updateNewNote();
+                    opacityOveraly.classList.add("show");
+                    overlay.classList.add("show");
+                    overlayInfoP.innerHTML = `Final Score: ${score}`;
+                    // Stop and reset the test
+                    resetSoundTest();
                 }
             }
-            playNote(note);
-            key.classList.add("active");
+            else{
+                playNote(note);
+                key.classList.add("active");
+            }
         };
     });
 
@@ -79,29 +98,55 @@ soundBtn.addEventListener("click", async () => {
         soundBtn.disabled = true;
         soundScoreP.style.display = "flex";
     }
-
-    // Start audio context on the first click
-    await Tone.start();
-    if (!sound){
-        sound = new Tone.Synth({volume: -12}).toDestination();
-    };
+    soundInfoP.innerHTML = "| Guess a note |";
     updateNewNote();
 });
 
 async function playNote(note){
-    await Tone.start();
-    if (!sound){
-        sound = new Tone.Synth({volume: -12}).toDestination();
-    };
-    sound.triggerAttackRelease(note, "8n");
+    sound.triggerAttackRelease(note, "12n");
 }
 
 function getNote(){
     return notes[Math.floor(Math.random() * notes.length)];
 }
 
-function updateNewNote(){
+async function updateNewNote(){
+    // Start audio context on the first click
+    await Tone.start();
+    if (!sound){
+        sound = new Tone.Synth({volume: volume}).toDestination();
+    };
     currentNote = getNote();
-    soundScoreP.innerHTML = `Score: ${score} | ${currentNote}`;
+    updateScoreTag();
     playNote(currentNote);
+}
+
+// Function to update the score tag
+function updateScoreTag(){
+    if (noteCheckbox.checked == true){
+        soundScoreP.innerHTML = `Score: ${score} | ${currentNote}`;
+    }
+    else{
+        soundScoreP.innerHTML = `Score: ${score}`;
+    };
+}
+
+// Function to reset the test
+function resetSoundTest(){
+    // Stop the test
+    started = false;
+    // Reset the score to 0
+    score = 0;
+    // Remove any labels
+    soundScoreP.innerHTML = "";
+    soundScoreP.style.display = "none";
+    soundInfoP.innerHTML = "| Press the start button to play! |";
+    // Make the start button not disabled
+    soundBtn.disabled = false;
+}
+
+// Add this reset function to the global reset functions array
+// Check if the array exists first
+if (window.resetFunctions){
+    window.resetFunctions.push(resetSoundTest);
 }

@@ -32,7 +32,7 @@ async function saveAmountAttempts(attempts){
         console.log("Saved number of attempts", result.message);
     }
     catch (err){ 
-        console.log("Error saving attempts", err)
+        console.log("Error saving attempts", err);
     }
 };
 

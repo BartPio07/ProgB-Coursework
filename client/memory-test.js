@@ -3,7 +3,9 @@ var memDiv = document.getElementById("memory-game");
 var memBtns = document.getElementsByClassName("memory-btn");
 memBtns = Array.from(memBtns);
 var memStartBtn = document.getElementById("memory-start-btn");
-var memoryScore = document.getElementById("memory-score");
+let opacityOveraly = document.getElementById("opacity-overlay");
+let overlay = document.getElementById("overlay");
+let overlayInfoP = document.getElementById("overlay-info-p");
 // Disable all the memory buttons
 for (const btn of memBtns){
     btn.disabled = true;
@@ -22,7 +24,6 @@ memStartBtn.addEventListener("click", async function() {
     // Reset flags and lists to be able to reset the game with no problem
     started = true;
     memStartBtn.disabled = true;
-    memoryScore.innerHTML = "";
     // Create a list of random numbers to represent which boxes will be shown
     // Reset the chosen boxes each time the button is pressed
     chosenBoxes = [];
@@ -103,7 +104,9 @@ memDiv.addEventListener("click", async function(event) {
             await showDelay(500);
             started = false;
             memStartBtn.disabled = false;
-            memoryScore.innerHTML = `Score: ${maxIndex-2}`;
+            opacityOveraly.classList.add("show");
+            overlay.classList.add("show");
+            overlayInfoP.innerHTML = `Final Score: ${maxIndex-2}`;
             return;
         };
     };
@@ -134,7 +137,6 @@ function resetMemoryTest(){
     };
     toggleDisabledButtons(true);
     memStartBtn.disabled = false;
-    memoryScore.innerHTML = "";
 }
 
 // Add this reset function to the global reset functions array

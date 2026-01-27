@@ -1,0 +1,14 @@
+"filename", "language", "JSON", "JavaScript JSX", "PostCSS", "JSON with Comments", "HTML", "comment", "blank", "total"
+"d:\Uni\ProgB-Coursework\app.test.js", "JavaScript JSX", 0, 0, 0, 0, 0, 2, 1, 3
+"d:\Uni\ProgB-Coursework\client\index.html", "HTML", 0, 0, 0, 0, 146, 1, 8, 155
+"d:\Uni\ProgB-Coursework\client\memory-test.js", "JavaScript JSX", 0, 98, 0, 0, 0, 35, 11, 144
+"d:\Uni\ProgB-Coursework\client\reaction-test.js", "JavaScript JSX", 0, 111, 0, 0, 0, 27, 12, 150
+"d:\Uni\ProgB-Coursework\client\script.js", "JavaScript JSX", 0, 42, 0, 0, 0, 9, 13, 64
+"d:\Uni\ProgB-Coursework\client\sound-test.js", "JavaScript JSX", 0, 105, 0, 0, 0, 21, 13, 139
+"d:\Uni\ProgB-Coursework\client\style.css", "PostCSS", 0, 0, 505, 0, 0, 11, 88, 604
+"d:\Uni\ProgB-Coursework\client\type-test.js", "JavaScript JSX", 0, 269, 0, 0, 0, 76, 35, 380
+"d:\Uni\ProgB-Coursework\package.json", "JSON", 15, 0, 0, 0, 0, 0, 1, 16
+"d:\Uni\ProgB-Coursework\server.js", "JavaScript JSX", 0, 98, 0, 0, 0, 41, 23, 162
+"d:\Uni\ProgB-Coursework\settings.json", "JSON with Comments", 0, 0, 0, 3, 0, 0, 0, 3
+"d:\Uni\ProgB-Coursework\songs.json", "JSON", 0, 0, 0, 0, 0, 0, 1, 1
+"Total", "-", 15, 723, 505, 3, 146, 223, 206, 1821
