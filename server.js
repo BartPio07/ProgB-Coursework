@@ -1,6 +1,6 @@
 const port = 3000;
 
-// Create a server using express
+// Import the express module
 import express from "express";
 // Import environment variables
 import "dotenv/config";
@@ -45,7 +45,7 @@ app.use(express.json());
 app.use(express.static("client"));
 
 // Check if the server is alive
-app.get("check-alive", async (req, res) => {
+app.get("/check-alive", async (req, res) => {
     try{
         // Respond with good status
         res.status(200);
@@ -118,6 +118,7 @@ app.get("/api/get-leaderboard", async (req, res) => {
         });
         // respond to the user with the leaderboard data
         res.json(leaderboardData);
+        res.status(200);
     }
     catch (error){
         res.status(500).json({ error: error.message });

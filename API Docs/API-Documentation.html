@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+    <div id="centering-div">
+        <h1>Human Test Api Documentation</h1>
+        <div id="navigation-bar">
+            <button id="express-page-btn">Express</button>
+            <button id="firebase-page-btn">Firebase</button>
+        </div>
+        <div id="express-documentation" style="display:block;">
+            <h3>Initialisation</h3>
+            <p>
+                This is first done by importing the <b>Express Framework</b> and creating an applicaton instance.<br>
+                The instance is the core object of the backend and it provides methods used to define how the server
+                responds to different types of requests, like <b>GET</b> and <b>POST</b>.
+            </p>
+            
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Import the express module
+import express from "express";
+// Create the express server
+const app = express();</code></pre>
+            </div>
+            <h3>Configuration</h3>
+            <p>
+                Before the server handles specific routes, it uses "middleware" to process requests globally.<br>
+                This code snippet shows middleware being used.<br>
+                This tells express to <b>parse incoming requests</b> with <b>JSON</b>.<br>
+                This is essential since it allows the server to read the data send by the user and make it available in objects
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Allow the server to read json data sent to the website
+app.use(express.json());</code></pre>
+            </div>
+            <p>
+                This code snippet tells Express to use <b>static files</b>; things such as <b>HTML</b>, <b>CSS</b> and client-side <b>JAVASCRIPT</b>
+                in this case, directly from a folder named "client"<br>
+                This allows your backend to host the actual user interface.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Make the express server use static file from the client folder
+app.use(express.static("client"));</code></pre>
+            </div>
+            <h3>Routing</h3>
+            <p>
+                Once the server ahs been initialised, it defines specific <b>endpoints</b>.<br>
+                Always linked with a URL, like in the code snippet.
+                <ul>
+                    <li><b>GET</b></li>
+                    <ul>
+                        <li>Used to retrieve data from the server.</li>
+                    </ul>
+                    <li><b>POST</b></li>
+                    <ul>
+                        <li>Used to send data to the server.</li>
+                    </ul>
+                </ul>
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Check if the server is alive
+app.get("/check-alive", async (req, res) => {
+    try{
+        // Respond with good status
+        res.status(200);
+    }
+    catch{
+        // Respond with bad server status
+        res.status(500);
+    }
+});</code></pre>
+            </div>
+            <p>
+                This code is an exmaple of how the <b>GET</b> endpoint works.<br>
+                This code is used to respond to a request of checking whether the server is still active.<br>
+                If it is, then it returns a successfull status code <b>200</b><br>
+                If not, it would return code <b>500</b>, but actually it wouldn't return anything since the server wouldn't be running.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Save the number of reaction test attempts
+app.post("/save-reaction-attempts", async (req, res) => {
+    // Get the path of the settings file
+    const dataPath = path.resolve("settings.json");
+    try{
+        // Get the contents
+        const attempts = req.body;
+        // Check if the data contains the attempts
+        if (!attempts || attempts.reactionAttempts === undefined){
+            return res.status(400).json({error: "Missing key"});
+        }
+        // Write to the file
+        await fs.writeFile(dataPath, JSON.stringify(attempts, null, 2));
+        // Respond with some data
+        res.status(200);
+        res.json({message: "saved data"});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Server error: ${err}`});
+    }
+});</code></pre>
+            </div>
+            <p>
+                This code is an example of how a <b>POST</b> endpoint works.<br>
+                This code is used to save the number of reaction tests the user wants to do to a JSON file.<br>
+                It gets the data sent from the request.<br>
+                Checks for the correct criteria, in the first case, if the correct keys exist.<br>
+                If not, it returns status code <b>400</b>, indicating a user error.<br>
+                Else if then saves the data and returns a code <b>200</b> meaning success.<br>
+                If something bad happens, the error code <b>500</b> is sent back along with an error message.
+            </p>
+            <h3>Staring the server</h3>
+            <p>
+                This is the final thing to do to start an express server.<br>
+                This command tells the <b>Node.js</b> process to start 'listening' for incoming network traffic
+                on a specific port, such as 3000.<br>
+                Once active, the server remains running in the background, waiting to process user interactions.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">app.listen(port, () => {
+    console.log(`Server started on: 127.0.0.1:${port}`);
+});</code></pre>
+            </div>
+        </div>
+
+        <div id="firebase-documentation" style="display:none;">
+            <h3>Initialisation</h3>
+            <p>
+                This is first done by importing the <b>Firebase Module</b>
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "firebase/firestore";</code></pre>
+            </div>
+            <p>
+                Configuring it with the given keys on the firebase website <a href="https://console.firebase.google.com/">Firebase Console</a>
+                where mine are hidden in a <b>.env file</b>.<br>
+                You won't entirely need all of these, the most imporant would be:
+                <ul>
+                    <li><b>API Key</b></li>
+                    <li><b>AuthDomain</b></li>
+                    <li><b>projectId</b></li>
+                </ul>
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID
+};</code></pre>
+            </div>
+            <p>
+                And then finally <b>initialising firebase</b> using the config and getting the <b>database object</b> using 
+                the firebase app.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+const dataBase = getFirestore(firebaseApp);</code></pre>
+            </div>
+            <h3>Data Retrieval</h3>
+            <p>
+                This is also used on behalf of express, using the <b>GET</b> method.
+            </p>
+
+            <p>
+                This code handles GET requests for the server to retrieve the leaderboard data.<br>
+                The first of it is:
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">app.get("/api/get-leaderboard", async (req, res) => {</code></pre>
+            </div>
+            <p>
+                Which is the URL the website accesses when the user requests the leaderboard data
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">try{
+    // Query the database
+    const q = query(collection(dataBase, "scores"), orderBy("wpm", "desc"), limit(10));
+    // Ger the data from the query
+    const querySnapshot = await getDocs(q);</code></pre>
+            </div>
+            <p>
+                Then the function queries to database to get all of the matching entries<br>
+                Which are then made into data snapshots, from the query.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Loop through the data from the query
+let leaderboardData = [];
+querySnapshot.forEach((doc) => {
+    ...
+// Add the data to the leaderboard list
+    leaderboardData.push({
+        name: data.name,
+        wpm: data.wpm,
+        date: date + "<br>" + time
+    });</code></pre>
+            </div>
+            <p>
+                Where then the snapshots are looped through, the data is manipulated to the correct format and saved in the 
+                leaderboard array.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// respond to the user with the leaderboard data
+res.json(leaderboardData);
+res.status(200);</code></pre>
+            </div>
+            <p>
+                Where then the data is sent back to the user and a <b>200</b> code is sent to signify a success.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">catch (error){
+    res.status(500).json({ error: error.message });
+}</code></pre>
+            </div>
+            <p>
+                Where then if something goes wrong, the request responds with a <b>500</b> code to signify an error
+            </p>
+            <h3>Data Sending</h3>
+            <p>
+                This is also used on behalf of express, using the <b>POST</b> method.
+                This code handles the POST requests to the server to save the leaderboard data.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Route the user to save their score
+app.post("/api/submit-score", async (req, res) => {
+    try{
+        // Read the data sent from the client
+        const { name, wpm } = req.body;</code></pre>
+            </div>
+            <p>
+                This code routes the URL to save the users score. Which then also retrieves the data sent from the body.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Add the data to the database
+await addDoc(collection(dataBase, "scores"), {
+    name: name,
+    wpm: Number(wpm),
+    timestamp: new Date()
+});</code></pre>
+            </div>
+            <p>
+                This code is using firebase to create a <b>document</b> in the correct format for the firebase database to accept.
+                It defines which <b>database</b> it should go to and in which <b>collection</b> it should be saved.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">// Respond with a successfull message
+res.json({ status: "success", message: "Score Saved"});
+res.status(200);</code></pre>
+            </div>
+            <p>
+                If all goes well, the method will respond with a code <b>200</b>, meaning success along with a message.
+            </p>
+            <div class="code-snippet">
+                <pre><code class="language-javascript">catch(error) {
+res.status(500).json({ status: "failure", message: error.message });
+    }</code></pre>
+            </div>
+            <p>
+                If something does go wrong, however, it is caught and responds with a code <b>500</b> meaning something is wrong on the server side,
+                along with a message.
+            </p>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="script.js"></script>
+</body>
+</html>
