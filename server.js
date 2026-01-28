@@ -49,10 +49,12 @@ app.get("/check-alive", async (req, res) => {
     try{
         // Respond with good status
         res.status(200);
+        res.send("alive");
     }
     catch{
         // Respond with bad server status
         res.status(500);
+        res.send("dead");
     }
 });
 

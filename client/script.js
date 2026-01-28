@@ -92,6 +92,7 @@ setInterval(async () => {
         if (response.ok){
             dismissedToast = true;
         }
+        console.log("alive")
     }
     catch{
         // Only re-show the toast once the toast has been dismissed
@@ -99,8 +100,9 @@ setInterval(async () => {
             showToast(disconnectedToast, "Disconnected From The Server!", "")
             dismissedToast = false;
         }
+        console.log("dead");
     }
-}, 5000);
+}, 3000);
 
 // Add event listener to dimiss overlay
 overlayDismiss.addEventListener("click", function() {
